@@ -1,0 +1,44 @@
+name: generate brief
+
+on:
+  schedule:
+    - cron: "0 0 * * *"        # 00:00 UTC = 05:30 IST (Actions cron can drift 5-30 min)
+  workflow_dispatch:            # lets you run it by hand from the Actions tab
+
+permissions:
+  contents: write               # to commit the archive back to the repo
+  models: read                  # GitHub Models fallback
+
+concurrency:
+  group: brief
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Build today's edition
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ARCHIVE_URL: ${{ vars.ARCHIVE_URL }}
+        run: python brief.py generate
+
+      - name: Commit archive + dedupe memory
+        run: |
+          git config user.name  "ai-brief-bot"
+          git config user.email "actions@github.com"
+          git add data/brief.db docs/
+          git diff --staged --quiet || git commit -m "brief: $(date -u +%F)"
+          git push
