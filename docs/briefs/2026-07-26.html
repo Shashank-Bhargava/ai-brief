@@ -1,0 +1,133 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>AI Morning Brief — 2026-07-26</title></head>
+<body style="margin:0;padding:0;background:#f4f5f7;">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">5 stories · 2 min read · Edge AI Breakthroughs and Video World Models</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f5f7;">
+<tr><td align="center" style="padding:20px 10px;">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0"
+       style="width:600px;max-width:100%;background:#f4f5f7;">
+
+  <tr><td style="background:#16181d;padding:22px 24px;border-radius:12px 12px 0 0;">
+    <div style="font:700 20px/1.2 Georgia,serif;color:#fff;">AI Morning Brief</div>
+    <div style="margin-top:5px;font:400 13px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;
+                color:#9aa2b1;">Sunday, 26 July 2026 · 2 min read ·
+                5 stories from 32 sources</div>
+  </td></tr>
+
+  <tr><td style="background:#ffffff;padding:20px 24px;border-left:1px solid #e3e6eb;
+                 border-right:1px solid #e3e6eb;">
+    <div style="font:600 12px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;
+                letter-spacing:.12em;text-transform:uppercase;color:#b4531f;">
+      Executive summary</div>
+    <div style="margin-top:8px;font:400 15px/1.65 Georgia,serif;color:#14161a;">
+      Today's top developments highlight critical advances in edge computing efficiency and world-model simulation. A major breakthrough features a 27-billion parameter model running locally on a Jetson Orin NX 16GB using 1-bit quantization. Meanwhile, Induction Labs introduced Photon-1, a sparse 106-billion parameter mixture-of-experts model trained on raw video without action labels, capable of simulating desktops and modeling physics. Additionally, developers benchmarked the new TensorSharp inference engine against llama.cpp for cross-platform support, while browser-based WebGPU optimization enabled LFM 2.5 to hit 1,440 tokens per second. Together, these signals point to increasingly powerful localized hardware capabilities and advanced multi-domain simulation models that bypass traditional data annotation requirements.</div>
+    <div style="margin-top:14px;font:600 12px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#b4531f;">Key takeaways</div><ul style="margin:8px 0 0 0;padding-left:20px;font:400 14px/1.55 -apple-system,Segoe UI,Roboto,sans-serif;color:#14161a;"><li style="margin-bottom:6px;">Photon-1 is a 106B parameter MoE model trained on raw video to simulate desktops and physics.</li><li style="margin-bottom:6px;">A developer ran a 27B model locally on a Jetson Orin NX 16GB using 1-bit quantization.</li><li style="margin-bottom:6px;">TensorSharp was benchmarked against llama.cpp, offering cross-platform support and OpenAI APIs.</li><li style="margin-bottom:6px;">LFM 2.5 achieved 1,440 tokens per second in-browser via WebGPU and custom backend kernels.</li><li style="margin-bottom:6px;">Hardware discussions evaluated RTX PRO 4500 performance, power draw, and multi-card alternatives.</li></ul>
+  </td></tr>
+
+  
+    <tr><td style="padding:26px 24px 8px 24px;">
+      <div style="font:600 12px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;
+                  letter-spacing:.12em;text-transform:uppercase;color:#b4531f;">🏢 Lab Updates</div>
+    </td></tr>
+    <tr><td style="padding:6px 24px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+             style="background:#ffffff;border:1px solid #e3e6eb;border-radius:10px;">
+        <tr><td style="padding:14px 16px;">
+          <a href="https://www.marktechpost.com/2026/07/26/induction-labs-photon-1-simulates-desktops-plays-checkers-and-models-billiard-physics-from-one-pretraining-run/" style="font:600 16px/1.35 Georgia,serif;
+             color:#14161a;text-decoration:none;">Induction Labs Photon-1 Simulates Desktops, Plays Checkers, and Models Billiard Physics From One Pretraining Run</a>
+          <div style="margin-top:7px;font:400 14px/1.55 -apple-system,Segoe UI,Roboto,sans-serif;
+                      color:#14161a;">Induction Labs released Photon-1, a sparse 106-billion parameter mixture-of-experts model trained on raw video without action labels, capable of simulating desktops, playing checkers, and modeling physics.</div>
+          <div style="margin-top:6px;font:400 13px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:#b4531f;">→ Demonstrates action-free video pretraining for multi-domain simulation agents.</div>
+          <div style="margin-top:8px;font:400 12px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;
+                      color:#5b6270;">MarkTechPost</div>
+        </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding:26px 24px 8px 24px;">
+      <div style="font:600 12px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;
+                  letter-spacing:.12em;text-transform:uppercase;color:#b4531f;">🐙 Code & Open Source</div>
+    </td></tr>
+    <tr><td style="padding:6px 24px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+             style="background:#ffffff;border:1px solid #e3e6eb;border-radius:10px;">
+        <tr><td style="padding:14px 16px;">
+          <a href="https://www.reddit.com/r/LocalLLaMA/comments/1v6evbe/got_a_27b_model_running_locally_on_a_jetson_orin/" style="font:600 16px/1.35 Georgia,serif;
+             color:#14161a;text-decoration:none;">Got a 27B model running locally on a Jetson Orin NX 16GB (1-bit). still kind of amazed it works</a>
+          <div style="margin-top:7px;font:400 14px/1.55 -apple-system,Segoe UI,Roboto,sans-serif;
+                      color:#14161a;">A developer successfully ran a 27-billion parameter model locally on a Jetson Orin NX 16GB board using a 1-bit quantization method.</div>
+          <div style="margin-top:6px;font:400 13px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:#b4531f;">→ Highlights efficiency gains for running large models on low-power edge hardware.</div>
+          <div style="margin-top:8px;font:400 12px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;
+                      color:#5b6270;">Reddit r/LocalLLaMA</div>
+        </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding:6px 24px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+             style="background:#ffffff;border:1px solid #e3e6eb;border-radius:10px;">
+        <tr><td style="padding:14px 16px;">
+          <a href="https://www.reddit.com/r/LocalLLaMA/comments/1v6ect8/benchmarks_tensorsharp_vs_llamacpp/" style="font:600 16px/1.35 Georgia,serif;
+             color:#14161a;text-decoration:none;">Benchmarks: TensorSharp vs. llama.cpp</a>
+          <div style="margin-top:7px;font:400 14px/1.55 -apple-system,Segoe UI,Roboto,sans-serif;
+                      color:#14161a;">An open-source inference engine called TensorSharp was benchmarked against llama.cpp, offering cross-platform support and OpenAI-compatible APIs.</div>
+          <div style="margin-top:6px;font:400 13px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:#b4531f;">→ Provides an alternative local inference engine option for developers.</div>
+          <div style="margin-top:8px;font:400 12px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;
+                      color:#5b6270;">Reddit r/LocalLLaMA</div>
+        </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding:6px 24px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+             style="background:#ffffff;border:1px solid #e3e6eb;border-radius:10px;">
+        <tr><td style="padding:14px 16px;">
+          <a href="https://www.reddit.com/r/LocalLLaMA/comments/1v6e0uq/lfm_25_230m_running_at_1440_toks_inbrowser/" style="font:600 16px/1.35 Georgia,serif;
+             color:#14161a;text-decoration:none;">LFM 2.5 230M running at 1440 tok/s in-browser through a custom backend</a>
+          <div style="margin-top:7px;font:400 14px/1.55 -apple-system,Segoe UI,Roboto,sans-serif;
+                      color:#14161a;">A developer demonstrated LFM 2.5 running in-browser via WebGPU at high token speeds, utilizing hardware-optimized kernels for Nvidia and Apple Silicon.</div>
+          <div style="margin-top:6px;font:400 13px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:#b4531f;">→ Showcases high-performance in-browser AI inference capabilities via WebGPU.</div>
+          <div style="margin-top:8px;font:400 12px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;
+                      color:#5b6270;">Reddit r/LocalLLaMA</div>
+        </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding:26px 24px 8px 24px;">
+      <div style="font:600 12px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;
+                  letter-spacing:.12em;text-transform:uppercase;color:#b4531f;">📌 Also Worth Knowing</div>
+    </td></tr>
+    <tr><td style="padding:6px 24px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+             style="background:#ffffff;border:1px solid #e3e6eb;border-radius:10px;">
+        <tr><td style="padding:14px 16px;">
+          <a href="https://www.reddit.com/r/LocalLLaMA/comments/1v6ul6a/any_use_cases_for_rtx_pro_4500/" style="font:600 16px/1.35 Georgia,serif;
+             color:#14161a;text-decoration:none;">Any use cases for RTX PRO 4500?</a>
+          <div style="margin-top:7px;font:400 14px/1.55 -apple-system,Segoe UI,Roboto,sans-serif;
+                      color:#14161a;">A discussion on Reddit evaluates the RTX PRO 4500's performance, power draw, and price point compared to alternative hardware setups like the 5090 and multi-card configurations.</div>
+          
+          <div style="margin-top:8px;font:400 12px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;
+                      color:#5b6270;">Reddit r/LocalLLaMA</div>
+        </td></tr>
+      </table>
+    </td></tr>
+  
+    <tr><td style="padding:20px 24px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+             style="background:#fdf6f0;border:1px solid #f0dfd0;border-radius:10px;">
+        <tr><td style="padding:16px 18px;">
+          <div style="font:600 12px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;
+                      letter-spacing:.12em;text-transform:uppercase;color:#b4531f;">
+            💼 What this means for business</div>
+          <div style="margin-top:8px;font:400 14px/1.6 -apple-system,Segoe UI,Roboto,sans-serif;
+                      color:#14161a;">Extreme 1-bit quantization and edge hardware breakthroughs like Jetson Orin NX deployments make local, disconnected operational intelligence increasingly viable for remote facilities. Watch for maturing edge inference engines like TensorSharp to lower the cost and latency of on-premise industrial automation. Evaluate whether current edge hardware on the factory floor can support ultra-low-bit quantized models for real-time local processing.</div>
+        </td></tr>
+      </table>
+    </td></tr>
+
+  <tr><td style="padding:22px 24px 30px 24px;text-align:center;
+                 font:400 12px/1.6 -apple-system,Segoe UI,Roboto,sans-serif;color:#5b6270;">
+    Generated 14:49 IST · summariser: gemini<br>
+    <a href="https://example.github.io/ai-brief/" style="color:#b4531f;">Read the archive →</a>
+  </td></tr>
+
+</table></td></tr></table></body></html>

@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Morning Brief</title>
+<style>
+  :root{
+    --bg:#0f1419; --panel:#161d24; --line:#232d36; --ink:#e6edf3; --mute:#7d8b99;
+    --signal:#e8a33d; --cool:#4dd0c4; --dim:#111820;
+  }
+  [data-theme="light"]{
+    --bg:#f7f8f9; --panel:#ffffff; --line:#dfe3e8; --ink:#131820; --mute:#5d6773;
+    --signal:#a86a10; --cool:#0d7a70; --dim:#eef1f4;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:400 15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;}
+  a{color:inherit}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px 80px}
+
+  /* ── masthead: the shift-log strip ── */
+  header{border-bottom:1px solid var(--line);background:var(--dim);position:sticky;top:0;z-index:5}
+  .head{max-width:960px;margin:0 auto;padding:14px 18px;display:flex;
+        align-items:baseline;gap:14px;flex-wrap:wrap}
+  h1{margin:0;font:600 19px/1.2 Georgia,"Times New Roman",serif;letter-spacing:-.01em}
+  .stamp{font-size:11.5px;color:var(--mute);letter-spacing:.09em;text-transform:uppercase}
+  .spacer{flex:1}
+  button.ghost{background:none;border:1px solid var(--line);color:var(--mute);
+    border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer}
+  button.ghost:hover{color:var(--ink);border-color:var(--mute)}
+  button.ghost:focus-visible,input:focus-visible,select:focus-visible{
+    outline:2px solid var(--cool);outline-offset:2px}
+
+  /* ── gauges ── */
+  .gauges{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+    gap:1px;background:var(--line);border:1px solid var(--line);margin:22px 0}
+  .gauge{background:var(--panel);padding:12px 14px}
+  .gauge b{display:block;font:600 24px/1.1 Georgia,serif;letter-spacing:-.02em}
+  .gauge span{font-size:11px;color:var(--mute);letter-spacing:.1em;text-transform:uppercase}
+
+  /* ── controls ── */
+  .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:18px 0 6px}
+  input[type=search],select{background:var(--panel);border:1px solid var(--line);
+    color:var(--ink);border-radius:6px;padding:8px 11px;font-size:14px}
+  input[type=search]{flex:1;min-width:200px}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 4px}
+  .chip{border:1px solid var(--line);background:none;color:var(--mute);border-radius:999px;
+    padding:4px 11px;font-size:12px;cursor:pointer}
+  .chip[aria-pressed="true"]{border-color:var(--signal);color:var(--signal)}
+
+  /* ── summary ── */
+  .summary{background:var(--panel);border:1px solid var(--line);padding:18px 20px;margin:14px 0}
+  .eyebrow{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--signal)}
+  .summary p{margin:8px 0 0;font:400 16px/1.65 Georgia,serif}
+  .summary ul{margin:14px 0 0;padding-left:18px;font-size:14px}
+  .summary li{margin-bottom:5px}
+
+  /* ── the log ── */
+  .sect{margin-top:30px;padding-bottom:6px;border-bottom:1px solid var(--line);
+    font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--signal)}
+  .row{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .row.hide{display:none}
+  .sig{width:44px;flex:none;color:var(--signal);font-size:11px;padding-top:4px;letter-spacing:1px}
+  .body h3{margin:0;font:600 16px/1.4 Georgia,serif}
+  .body h3 a{text-decoration:none}
+  .body h3 a:hover{text-decoration:underline;text-decoration-color:var(--signal)}
+  .body p{margin:5px 0 0;font-size:14px;color:var(--ink)}
+  .why{margin-top:5px;font-size:13px;color:var(--signal)}
+  .meta{margin-top:7px;font-size:11.5px;color:var(--mute);letter-spacing:.03em}
+  .empty{padding:40px 0;color:var(--mute);text-align:center}
+  footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+    font-size:12px;color:var(--mute)}
+  @media (prefers-reduced-motion:no-preference){.row{transition:opacity .12s}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head">
+    <h1>AI Morning Brief</h1>
+    <span class="stamp mono" id="stamp">loading…</span>
+    <span class="spacer"></span>
+    <select id="archive" aria-label="Choose edition"></select>
+    <button class="ghost" id="theme" aria-label="Switch theme">◐ theme</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="gauges" id="gauges"></div>
+  <div class="summary" id="summary" hidden></div>
+
+  <div class="controls">
+    <input type="search" id="q" placeholder="Search this edition — title, source, summary">
+    <select id="sig" aria-label="Minimum significance">
+      <option value="1">all signal</option>
+      <option value="3">signal 3+</option>
+      <option value="4">signal 4+</option>
+    </select>
+  </div>
+  <div class="chips" id="chips"></div>
+
+  <div id="log"></div>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const SECTIONS = [["breaking","Breaking"],["models","New models"],["labs","Lab updates"],
+  ["funding","Funding & M&A"],["research","Research"],["code","Code & open source"],
+  ["product","Products & tools"],["policy","Policy & regulation"],["other","Also worth knowing"]];
+const $ = s => document.querySelector(s);
+let edition = null, active = new Set();
+
+/* theme */
+try { const t = localStorage.getItem("brief-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
+$("#theme").onclick = () => {
+  const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem("brief-theme", next); } catch {}
+};
+
+async function boot() {
+  let index = [];
+  try { index = await (await fetch("data/index.json", {cache:"no-store"})).json(); } catch {}
+  const sel = $("#archive");
+  if (index.length) {
+    sel.innerHTML = index.map(e => `<option value="${e.date}">${e.date}</option>`).join("");
+    sel.onchange = () => load(`data/${sel.value}.json`);
+  } else {
+    sel.hidden = true;
+  }
+  load("data/latest.json");
+}
+
+async function load(path) {
+  try {
+    edition = await (await fetch(path, {cache:"no-store"})).json();
+  } catch {
+    $("#log").innerHTML = `<div class="empty">No edition published yet.<br>
+      Run the <b>generate brief</b> workflow in the Actions tab to build one.</div>`;
+    $("#stamp").textContent = "no data";
+    return;
+  }
+  render();
+}
+
+function render() {
+  const e = edition;
+  $("#stamp").textContent = `${e.date_long} · ${e.read_time} min · built ${e.generated_at} IST`;
+  $("#gauges").innerHTML = [
+    ["Stories", e.item_count], ["Sources", e.source_count],
+    ["Read", e.read_time + " min"],
+    ["High signal", e.items.filter(i => (i.significance||3) >= 4).length],
+    ["Summariser", e.llm],
+  ].map(([k,v]) => `<div class="gauge"><b>${v}</b><span>${k}</span></div>`).join("");
+
+  if (e.exec_summary) {
+    $("#summary").hidden = false;
+    $("#summary").innerHTML = `<div class="eyebrow">Executive summary</div><p>${esc(e.exec_summary)}</p>` +
+      (e.takeaways?.length ? `<ul>${e.takeaways.map(t => `<li>${esc(t)}</li>`).join("")}</ul>` : "") +
+      (e.business ? `<div class="eyebrow" style="margin-top:16px">What this means for business</div>
+                     <p style="font-size:15px">${esc(e.business)}</p>` : "");
+  }
+
+  const present = SECTIONS.filter(([k]) => e.items.some(i => i.section === k));
+  $("#chips").innerHTML = present.map(([k,label]) =>
+    `<button class="chip" data-k="${k}" aria-pressed="${active.has(k)}">${label}</button>`).join("");
+  $("#chips").querySelectorAll(".chip").forEach(c => c.onclick = () => {
+    const k = c.dataset.k;
+    active.has(k) ? active.delete(k) : active.add(k);
+    render();
+  });
+
+  $("#log").innerHTML = present.map(([k,label]) => {
+    if (active.size && !active.has(k)) return "";
+    const rows = e.items.filter(i => i.section === k).map(item).join("");
+    return `<div class="sect">${label}</div>${rows}`;
+  }).join("") || `<div class="empty">Nothing in that filter.</div>`;
+
+  $("#foot").innerHTML = `Built by a scheduled GitHub Action · summariser: ${esc(e.llm)} ·
+    <a href="briefs/${e.date}.html">open the email version</a>`;
+  filter();
+}
+
+function item(i) {
+  const s = Math.max(1, Math.min(5, i.significance || 3));
+  const bar = "▮".repeat(s) + "▯".repeat(5 - s);
+  const also = (i.also?.length) ? ` · also: ${esc([...new Set(i.also.map(a => a.source))].slice(0,3).join(", "))}` : "";
+  const hay = esc(`${i.title} ${i.source} ${i.summary || ""}`).toLowerCase();
+  return `<div class="row" data-sig="${s}" data-hay="${hay}">
+    <div class="sig mono" title="signal ${s} of 5">${bar}</div>
+    <div class="body">
+      <h3><a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.title)}</a></h3>
+      <p>${esc(i.summary || "")}</p>
+      ${i.why ? `<div class="why">→ ${esc(i.why)}</div>` : ""}
+      <div class="meta mono">${esc(i.source)}${also}</div>
+    </div></div>`;
+}
+
+function filter() {
+  const q = $("#q").value.trim().toLowerCase();
+  const min = +$("#sig").value;
+  let shown = 0;
+  document.querySelectorAll(".row").forEach(r => {
+    const ok = (+r.dataset.sig >= min) && (!q || r.dataset.hay.includes(q));
+    r.classList.toggle("hide", !ok);
+    if (ok) shown++;
+  });
+  document.querySelectorAll(".sect").forEach(h => {
+    let n = 0, el = h.nextElementSibling;
+    while (el && el.classList.contains("row")) { if (!el.classList.contains("hide")) n++; el = el.nextElementSibling; }
+    h.style.display = n ? "" : "none";
+  });
+}
+$("#q").addEventListener("input", filter);
+$("#sig").addEventListener("change", filter);
+
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+boot();
+</script>
+</body>
+</html>

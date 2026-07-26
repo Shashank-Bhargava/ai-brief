@@ -1,0 +1,48 @@
+name: send brief
+
+on:
+  schedule:
+    - cron: "20 1 * * *"        # 01:20 UTC = 06:50 IST; the job waits for 07:00 exactly
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4    # pulls the edition the generate job committed
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Wait for 07:00 IST, then send
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECIPIENTS: ${{ secrets.RECIPIENTS }}
+        run: python brief.py send --wait-until 07:00
+
+      - name: Alert me if the send failed
+        if: failure()
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: |
+          python - <<'PY'
+          import os, smtplib
+          from email.message import EmailMessage
+          m = EmailMessage()
+          m["Subject"] = "AI Brief FAILED to send"
+          m["From"] = m["To"] = os.environ["GMAIL_USER"]
+          m.set_content("The send job failed. Check the Actions tab.")
+          with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
+              s.login(os.environ["GMAIL_USER"], os.environ["GMAIL_APP_PASSWORD"])
+              s.send_message(m)
+          PY
