@@ -2,7 +2,7 @@ name: send brief
 
 on:
   schedule:
-    - cron: "20 1 * * *"        # 01:20 UTC = 06:50 IST; the job waits for 07:00 exactly
+    - cron: "0 1 * * *"        # 01:20 UTC = 06:50 IST; the job waits for 07:00 exactly
   workflow_dispatch:
 
 permissions:
