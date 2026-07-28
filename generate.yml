@@ -2,7 +2,7 @@ name: generate brief
 
 on:
   schedule:
-    - cron: "0 0 * * *"        # 00:00 UTC = 05:30 IST (Actions cron can drift 5-30 min)
+    - cron: "30 23 * * *"        # 00:00 UTC = 05:30 IST (Actions cron can drift 5-30 min)
   workflow_dispatch:            # lets you run it by hand from the Actions tab
 
 permissions:
